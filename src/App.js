@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import "bulma/bulma.sass";
 
 import Layout from "./components/Layout";
 import Standings from "./components/Standings";
+
+import { fetchStandings } from "./actions/fetchStandings";
 
 const enableNavbarBurger = () => {
   document.addEventListener("DOMContentLoaded", () => {
@@ -34,18 +37,26 @@ const enableNavbarBurger = () => {
 class App extends Component {
   componentDidMount() {
     enableNavbarBurger();
+    this.props.fetchStandings();
   }
 
   render() {
     return (
       <Layout>
         <div className="columns">
-          <Standings league="nba" conference="east" className="column" />
-          <Standings league="nba" conference="west" className="column" />
+          <Standings data={null} className="column" />
+          <Standings data={null} className="column" />
         </div>
       </Layout>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = {
+  fetchStandings
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);
